@@ -1,3 +1,13 @@
+
+@keyframes spinImage {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
 nav ul {
     list-style: none;
     display: flex;
@@ -5,18 +15,23 @@ nav ul {
     gap: 30px;
     padding: 20px 0;
     margin: 0;
+
 }
 
 nav a {
     text-decoration: none;
     color: #000;
     font-weight: bold;
+
 }
+
+
 
 .banner {
     position: relative;
     margin: 0 auto;
     overflow: hidden;
+ 
 }
 
 .banner img {
@@ -24,6 +39,7 @@ nav a {
     height: clamp(140px, 22vw, 260px);
     object-fit: fill;
     display: block;
+
 }
 
 .banner-bar {
@@ -36,10 +52,25 @@ nav a {
     text-align: center;
     padding: 10px 14px;
     display: none;
+
 }
 
 .banner:hover .banner-bar {
     display: block;
+    
+}
+
+@keyframes horizontalMoveImage {
+
+    
+    from {
+        transform: translateX(0);
+    }
+
+    to {
+        transform: translateX(100px);
+    }
+
 }
 
 .ME {
@@ -62,16 +93,23 @@ nav a {
         object-fit: cover;
         border: 3px solid #0e0707;
         display: block;
+         animation: spinImage 1s linear infinite;
+      
     }
+
+    
 
     .ME-text {
         max-width: 600px;
         font: 16px Arial, sans-serif;
         text-align: center;
+      
+    
     }
 
     .ME-text h1,
     .ME-text p {
         margin: 0 0 10px;
+   
     }
 }
