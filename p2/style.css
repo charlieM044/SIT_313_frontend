@@ -13,15 +13,35 @@ body {
     margin: 0;
 }
 
+nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    padding: 20px;
+    flex-wrap: wrap;
+}
+
 nav ul {
     list-style: none;
     display: flex;
-    justify-content: left;
     gap: 30px;
-    padding: 20px 20px;
+    padding: 0;
     margin: 0;
 
 
+}
+
+.newsletter-form {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-left: auto;
+    flex-wrap: wrap;
+}
+
+.newsletter-form p {
+    margin: 0;
 }
 
 nav a {
@@ -289,5 +309,16 @@ nav a {
     box-shadow: 0 14px 28px rgba(0, 0, 0, 0.2);
 
     
+}
+
+@media (max-width: 700px) {
+    nav {
+        justify-content: center;
+    }
+
+    .newsletter-form {
+        margin-left: 0;
+        justify-content: center;
+    }
 }
 
