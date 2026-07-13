@@ -1,0 +1,6 @@
+node_modules/
+.env
+.DS_Store
+report.pdf
+report.docx
+assets/**
