@@ -7,9 +7,11 @@ newsletterForm.addEventListener('submit', async (e) => {
     // Get the email 
     const emailInput = newsletterForm.querySelector('input[type="email"]');
     const email = emailInput.value;
-
+    console.log('Sending email to backend:', email);
     try {
         // Send email to backend using fetch
+        console.log('Attempting to send email:', email);
+
         const response = await fetch('http://localhost:3000/signup', {
             method: 'POST',
             headers: {
