@@ -1,4 +1,6 @@
 // Get the newsletter form
+
+// node server.js
 const newsletterForm = document.querySelector('.newsletter-form');
 
 newsletterForm.addEventListener('submit', async (e) => {
