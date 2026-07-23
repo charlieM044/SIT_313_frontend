@@ -17,12 +17,15 @@ const transporter = nodemailer.createTransport({
     auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASSWORD
+        
     }
 });
 
 // POST /signup route
 app.post('/signup', async (req, res) => {
     try {
+        console.log('EMAIL_USER:', process.env.EMAIL_USER);
+        console.log('EMAIL_PASSWORD:', process.env.EMAIL_PASSWORD ? 'SET' : 'MISSING');
         const { email } = req.body;
 
         // Validate email
