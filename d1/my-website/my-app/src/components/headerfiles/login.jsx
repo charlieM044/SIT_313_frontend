@@ -3,10 +3,7 @@ import { createPortal } from 'react-dom';
 
 import { useNavigate } from 'react-router-dom';
 
-import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth, isFirebaseConfigured, firebaseConfigError } from './firebase.js';
-
-function Login({ onClose, isLoggedIn, setIsLoggedIn, onLogout }) {
+function Login({ onClose, isLoggedIn, setIsLoggedIn }) {
   const [showLogin, setShowLogin] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -30,14 +27,22 @@ function Login({ onClose, isLoggedIn, setIsLoggedIn, onLogout }) {
       return;
     }
 
-    if (!isFirebaseConfigured || !auth) {
-      setError(firebaseConfigError || 'Firebase auth is not configured for this environment.');
-      return;
-    }
-
     setLoading(true);
     try {
-      await signInWithEmailAndPassword(auth, email, password);
+      const response = await fetch('http://localhost:3000/api/auth/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        const result = await response.json();
+        throw new Error(result.error);
+      }
+
+      const result = await response.json();
+      localStorage.setItem('authToken', result.token);
       setIsLoggedIn(true);
       setShowLogin(false);
       navigate('/');
@@ -52,10 +57,11 @@ function Login({ onClose, isLoggedIn, setIsLoggedIn, onLogout }) {
   return (
     <>
       {isLoggedIn ? (
-        <>
-          <span>Welcome back!</span>
-          <button type="button" onClick={onLogout}>Log out</button>
-        </>
+        <button onClick={async () => {
+          await fetch('http://localhost:3000/api/auth/logout', { method: 'POST' });
+          localStorage.removeItem('authToken');
+          setIsLoggedIn(false);
+        }}>Logout</button>
       ) : (
         <button onClick={handleLoginClick}>Login</button>
       )}

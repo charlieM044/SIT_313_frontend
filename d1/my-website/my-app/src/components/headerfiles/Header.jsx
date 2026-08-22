@@ -1,32 +1,15 @@
 //import NewsletterForm from './NewsletterForm.jsx';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import SearchBar from './search.jsx';
 import Login from './login.jsx';
 import Signup from './signup.jsx';
 import { useNavigate } from 'react-router-dom';
 import NewsletterForm from './NewsletterForm.jsx'; // Import the NewsletterForm component
-import { auth } from './firebase.js';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
 
 
 function Header() {
-    const [isloggedIn, setIsLoggedIn] = useState(Boolean(auth?.currentUser));
+  const [isloggedIn, setIsLoggedIn] = useState(() => Boolean(localStorage.getItem('authToken')));
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (!auth) return undefined;
-
-    return onAuthStateChanged(auth, (user) => {
-      setIsLoggedIn(Boolean(user));
-    });
-  }, []);
-
-  const handleLogout = async () => {
-    if (auth) {
-      await signOut(auth);
-    }
-  };
-
   return (
     <header>
 
@@ -48,11 +31,7 @@ function Header() {
         </section>
         <div className="header-actions">
           <NewsletterForm />
-          <Login
-            isLoggedIn={isloggedIn}
-            setIsLoggedIn={setIsLoggedIn}
-            onLogout={handleLogout}
-          />
+          <Login isLoggedIn={isloggedIn} setIsLoggedIn={setIsLoggedIn} />
           {/* {isloggedIn && <button onClick={() => navigate('/post')}>Post</button>}
           {/* {!isloggedIn && <button onClick={() => navigate('/signup')}>Sign Up</button>}*/}
 
