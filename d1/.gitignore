@@ -13,3 +13,5 @@ my-website/server/.env
 my-website/server/firebase-service-account.json
 my-website/server/*firebase-adminsdk*.json
 
+my-website/server/personal-web-page-ef722-firebase-adminsdk-fbsvc-2b697a573a.json
+
