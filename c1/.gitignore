@@ -1,0 +1,15 @@
+node_modules/
+.env
+my-website/server/node_modules/**
+my-website/server/.env
+
+
+
+my-website\my-app\.env
+my-website\server\node_modules
+.DS_Store
+report.pdf
+report.docx
+my-website\my-app\node_modules/**
+assets/**
+
