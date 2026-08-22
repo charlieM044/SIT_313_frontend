@@ -1,10 +1,10 @@
 node_modules/
 .env
-my-website\my-app\.env
-my-website\server\node_modules
+my-website/my-app/.env
+my-website/server/node_modules/
 .DS_Store
 report.pdf
 report.docx
-my-website\my-app\node_modules/**
+my-website/my-app/node_modules/**
 assets/**
 
