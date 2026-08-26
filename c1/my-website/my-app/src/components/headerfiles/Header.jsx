@@ -40,9 +40,14 @@ function Header() {
         <NewsletterForm />
       </nav> */}
 
-
+    
 
       <nav aria-label="Primary navigation">
+              <section className="logo">
+          <a href="/">
+            <img src="/logo.png" alt="Logo" />
+          </a>
+        </section>
         <section className="search-bar">
           <SearchBar />
         </section>

@@ -8,6 +8,11 @@ const JWT_EXPIRES_IN = '5d';
 const jwtSecret = process.env.JWT_SECRET;
 
 router.post('/signup', async (req, res) => {
+  // authUsers.js, near the top
+const jwtSecret = process.env.JWT_SECRET;
+if (!jwtSecret) {
+  throw new Error('JWT_SECRET is not set in environment variables.');
+}
   const { username, email, password } = req.body;
 
   if (!username || !email || !password || password.length < 6) {
@@ -30,8 +35,9 @@ router.post('/signup', async (req, res) => {
     });
 
     return res.status(201).json({ message: 'Account created.' });
-  } catch (error) {
-    return res.status(500).json({ error: 'Unable to create account.' });
+  }  catch (error) {
+  console.error('Signup error:', error);
+  return res.status(500).json({ error: 'Unable to create account.' });
   }
 });
 
@@ -40,6 +46,9 @@ router.post('/login', async (req, res) => {
   if (!email || !password) {
     return res.status(400).json({ error: 'Email and password are required.' });
   }
+  if (!jwtSecret) {
+  throw new Error('JWT_SECRET is not set in environment variables.');
+}
 
   try {
     const users = await db.collection('users').where('email', '==', email).limit(1).get();
@@ -66,7 +75,8 @@ router.post('/login', async (req, res) => {
 
     return res.json({ message: 'Signed in.', token });
   } catch (error) {
-    return res.status(500).json({ error: 'Unable to sign in.' });
+  console.error('Login error:', error);
+  return res.status(500).json({ error: 'Unable to sign in.' });
   }
 });
 

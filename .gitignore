@@ -8,3 +8,17 @@ report.docx
 assets/**
 **/dist/
 **/*firebase-adminsdk*.json
+
+**/*adminsdk*.json
+node_modules/
+**/node_modules/
+.env
+**/.env
+.env.*
+!.env.example
+.DS_Store
+dist/
+.vite/
+*.log
+report.pdf
+report.docx

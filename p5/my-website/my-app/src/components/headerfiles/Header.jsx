@@ -30,7 +30,7 @@ function Header() {
           <SearchBar />
         </section>
         <div className="header-actions">
-          <NewsletterForm />
+        
           <Login isLoggedIn={isloggedIn} setIsLoggedIn={setIsLoggedIn} />
           {isloggedIn && <button onClick={() => navigate('/post')}>Post</button>}
           {/* {!isloggedIn && <button onClick={() => navigate('/signup')}>Sign Up</button>}*/}

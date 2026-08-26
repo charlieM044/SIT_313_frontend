@@ -1,10 +1,13 @@
 node_modules/
+**/node_modules/
 .env
-my-website/my-app/.env
-my-website/server/node_modules/
+**/.env
+.env.*
+!.env.example
 .DS_Store
+dist/
+.vite/
+*.log
 report.pdf
 report.docx
-my-website/my-app/node_modules/**
-assets/**
 

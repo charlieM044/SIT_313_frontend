@@ -24,6 +24,7 @@ function Signup() {
 
     setSubmitting(true);
     try {
+      console.log('Submitting signup form with:', { username, email, password });
       const response = await fetch('http://localhost:3000/api/auth/signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -32,7 +33,7 @@ function Signup() {
 
       const result = await response.json();
       if (!response.ok) {
-        throw new Error(result.error);
+        throw new Error(result.error || 'Failed to create account.');
       }
 
       navigate('/');

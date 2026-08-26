@@ -36,6 +36,7 @@ function Header() {
           {/* {!isloggedIn && <button onClick={() => navigate('/signup')}>Sign Up</button>}*/}
 
           <button onClick={() => navigate('/post')}>Post</button>
+          <button onClick={() => navigate('/pricing')}>Payment Plans</button>
         </div>
 
 

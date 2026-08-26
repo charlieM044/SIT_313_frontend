@@ -5,7 +5,7 @@ const fs = require('fs');
 const path = require('path');
 
 if (!getApps().length) {
-    const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_PATH || './personal-web-page-ef722-firebase-adminsdk-fbsvc-2b697a573a.json';
+    const serviceAccountPath = process.env.FIREBASE_SERVICE_ACCOUNT_PATH || './adminsdk.json';
 
   if (!fs.existsSync(serviceAccountPath)) {
     throw new Error(`Firebase service account file not found: ${serviceAccountPath}`);

@@ -9,6 +9,7 @@ import Feat_Articles from './components/Feat_Articles.jsx';
 import Footer from './components/footer.jsx';
 import Signup from './components/headerfiles/signup.jsx';
 import Post from './components/posts/post.tsx';
+import Pricing from './components/payments/pricing.tsx';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
@@ -36,6 +37,7 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/post" element={<Post />} />
+        <Route path="/pricing" element={<Pricing />} />
       </Routes>
        <Footer />
     </BrowserRouter>
