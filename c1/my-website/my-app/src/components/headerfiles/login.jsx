@@ -4,9 +4,9 @@ import { createPortal } from 'react-dom';
 import { useNavigate } from 'react-router-dom';
 
 import { signInWithEmailAndPassword } from 'firebase/auth';
-import { auth, isFirebaseConfigured, firebaseConfigError } from './firebase.js';
+import { auth, isFirebaseConfigured, firebaseConfigError } from '../../firebase.js';
 
-function Login({ onClose, isLoggedIn, setIsLoggedIn, onLogout }) {
+function Login({ onClose, isLoggedIn, onLogout }) {
   const [showLogin, setShowLogin] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -17,6 +17,7 @@ function Login({ onClose, isLoggedIn, setIsLoggedIn, onLogout }) {
   const handleLoginClick = () => setShowLogin((prev) => !prev);
 
   const handleClose = () => {
+    
     setShowLogin(false);
     if (onClose) onClose();
   };
@@ -38,11 +39,12 @@ function Login({ onClose, isLoggedIn, setIsLoggedIn, onLogout }) {
     setLoading(true);
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      setIsLoggedIn(true);
       setShowLogin(false);
-      navigate('/');
+      
+      
     } catch (err) {
       // Firebase gives specific error codes (auth/invalid-credential, auth/too-many-requests, etc.)
+      console.error('Login error:', err.code , err.message);
       setError('Incorrect email or password. Please try again.');
     } finally {
       setLoading(false);
@@ -54,7 +56,12 @@ function Login({ onClose, isLoggedIn, setIsLoggedIn, onLogout }) {
       {isLoggedIn ? (
         <>
           <span>Welcome back!</span>
-          <button type="button" onClick={onLogout}>Log out</button>
+          <button type="button" onClick={() => {
+            onLogout();
+            handleClose();
+          }}>
+            Log out
+          </button>
         </>
       ) : (
         <button onClick={handleLoginClick}>Login</button>

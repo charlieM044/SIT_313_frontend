@@ -1,31 +1,21 @@
 //import NewsletterForm from './NewsletterForm.jsx';
-import { useEffect, useState } from 'react';
+import { useAuth, AuthProvider } from '../context/AuthContext.jsx';
+import { auth } from '../../firebase.js';
+import { signOut } from 'firebase/auth';
+import { useNavigate } from 'react-router-dom';
 import SearchBar from './search.jsx';
 import Login from './login.jsx';
-import Signup from './signup.jsx';
-import { useNavigate } from 'react-router-dom';
-import NewsletterForm from './NewsletterForm.jsx'; // Import the NewsletterForm component
-import { auth } from './firebase.js';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
-
+import NewsletterForm from './NewsletterForm.jsx';
+import signup from './signup.jsx';
 
 function Header() {
-    const [isloggedIn, setIsLoggedIn] = useState(Boolean(auth?.currentUser));
+  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    if (!auth) return undefined;
-
-    return onAuthStateChanged(auth, (user) => {
-      setIsLoggedIn(Boolean(user));
-    });
-  }, []);
-
   const handleLogout = async () => {
-    if (auth) {
-      await signOut(auth);
-    }
+    if (auth) await signOut(auth);
   };
+
 
   return (
     <header>
@@ -52,10 +42,9 @@ function Header() {
           <SearchBar />
         </section>
         <div className="header-actions">
-          <NewsletterForm />
+        
           <Login
-            isLoggedIn={isloggedIn}
-            setIsLoggedIn={setIsLoggedIn}
+            isLoggedIn={isLoggedIn}   
             onLogout={handleLogout}
           />
           {/* {isloggedIn && <button onClick={() => navigate('/post')}>Post</button>}

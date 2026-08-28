@@ -1,6 +1,8 @@
 import { useState, type SyntheticEvent } from 'react';
 import { addDoc, collection, serverTimestamp } from 'firebase/firestore';
-import { auth, db, isFirebaseConfigured, firebaseConfigError } from './firebase.js';
+import { auth, db, isFirebaseConfigured, firebaseConfigError } from '../../firebase.js';
+import { useAuth } from '../context/AuthContext.jsx';
+
 
 type PostType = 'article' | 'question';
 
@@ -14,6 +16,7 @@ type PostDraft = {
 
 
 function Post() {
+  const authContext = useAuth();
 
 const [postDraft, setPostDraft] = useState<PostDraft>({
   type: 'article',
@@ -115,7 +118,7 @@ return (
             type="radio"
             name="type"
             value="article"
-          
+            checked={postDraft.type === 'article'}
             onChange={(e) => {
               const nextType = e.target.value as PostType;
               console.log('Post type changed:', nextType);

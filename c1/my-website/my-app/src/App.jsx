@@ -11,6 +11,10 @@ import Signup from './components/headerfiles/signup.jsx';
 import Post from './components/posts/post.tsx';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './components/context/AuthContext.jsx';
+
+
+
 
 function Home() {
   return (
@@ -31,6 +35,7 @@ function Home() {
 function App() {
   return (
     <BrowserRouter>
+    <AuthProvider>
     <Header />
       <Routes>
         <Route path="/" element={<Home />} />
@@ -38,6 +43,7 @@ function App() {
         <Route path="/post" element={<Post />} />
       </Routes>
        <Footer />
+    </AuthProvider>
     </BrowserRouter>
 
   );

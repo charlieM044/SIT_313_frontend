@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { createUserWithEmailAndPassword, updateProfile } from 'firebase/auth';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
-import { auth, db, isFirebaseConfigured, firebaseConfigError } from './firebase.js';
+import { auth, db, isFirebaseConfigured, firebaseConfigError } from '../../firebase.js';
 
 
   
