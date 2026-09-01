@@ -787,3 +787,297 @@ header nav {
         width: 100%;
     }
 }
+
+
+/* ---------- Pricing page ---------- */
+.upgrade-section {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 4rem;
+    text-align: center;
+}
+
+.upgrade-title {
+    font-size: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.5rem;
+}
+
+.current-plan {
+    font-size: 1rem;
+    color: #555;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+}
+
+.plan-badge {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px;
+}
+
+.plan-badge--paid {
+    background: linear-gradient(135deg, #ffd76a, #ff9f43);
+    color: #442800;
+}
+
+.upgrade-subtitle {
+    color: #777;
+    margin-bottom: 2rem;
+}
+
+.pricing-cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.pricing-card {
+    flex: 1 1 160px;
+    max-width: 220px;
+    border: 2px solid #e3e3e8;
+    border-radius: 14px;
+    background: #fff;
+    padding: 1.25rem 1rem;
+    cursor: pointer;
+    transition: border-color 0.15s ease, transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.pricing-card:hover {
+    border-color: #c9c9d4;
+    transform: translateY(-2px);
+}
+
+.pricing-card--selected {
+    border-color: #6c5ce7;
+    box-shadow: 0 6px 18px rgba(108, 92, 231, 0.18);
+}
+
+.pricing-card h2 {
+    font-size: 1.1rem;
+    margin: 0 0 0.35rem;
+}
+
+.pricing-card-price {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #6c5ce7;
+    margin: 0;
+}
+
+.show-more-button {
+    background: none;
+    border: none;
+    color: #6c5ce7;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: 2rem;
+    padding: 0.25rem 0.5rem;
+}
+
+.show-more-button:hover {
+    text-decoration: underline;
+}
+
+
+.pricing-details {
+    background: #fafafe;
+    border: 1px solid #ececf3;
+    border-radius: 18px;
+    padding: 2rem;
+    text-align: left;
+}
+
+.pricing-details h2 {
+    margin: 0 0 0.25rem;
+    font-size: 1.5rem;
+}
+
+.pricing-details-price {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #6c5ce7;
+    margin: 0 0 0.25rem;
+}
+
+.pricing-details-tagline {
+    color: #777;
+    margin-bottom: 1.25rem;
+}
+
+.pricing-features {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 1.75rem;
+    display: grid;
+    gap: 0.6rem;
+}
+
+.pricing-features li {
+    position: relative;
+    padding-left: 1.6rem;
+    color: #333;
+}
+
+.pricing-features li::before {
+    content: "✓";
+    position: absolute;
+    left: 0;
+    color: #2ecc71;
+    font-weight: 700;
+}
+
+.upgrade-button {
+    width: 100%;
+    padding: 0.85rem 1.5rem;
+    background: #6c5ce7;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.15s ease, transform 0.1s ease;
+}
+
+.upgrade-button:hover:not(:disabled) {
+    background: #5a4bd6;
+    transform: translateY(-1px);
+}
+
+.upgrade-button:disabled {
+    background: #d7d7e2;
+    color: #9a9aa8;
+    cursor: not-allowed;
+}
+
+
+.form-status {
+    font-size: 0.9rem;
+    margin-top: 0.75rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: 8px;
+}
+
+.form-status--error {
+    background: #fdecea;
+    color: #c0392b;
+}
+
+.form-status--success {
+    background: #eafaf1;
+    color: #1e8449;
+    font-weight: 600;
+}
+
+
+.payment-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(20, 20, 30, 0.55);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 1rem;
+}
+
+.payment-box {
+    background: #fff;
+    border-radius: 16px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 420px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.25);
+}
+
+.payment-box h2 {
+    margin: 0 0 0.25rem;
+    font-size: 1.35rem;
+}
+
+.payment-subtitle {
+    color: #777;
+    margin-bottom: 1.5rem;
+}
+
+.payment-box form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.payment-box input {
+    padding: 0.7rem 0.9rem;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-size: 0.95rem;
+}
+
+.payment-box input:focus {
+    outline: none;
+    border-color: #6c5ce7;
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.15);
+}
+
+.payment-row {
+    display: flex;
+    gap: 0.75rem;
+}
+
+.payment-row input {
+    flex: 1;
+}
+
+.payment-actions {
+    display: flex;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+}
+
+.payment-actions button {
+    flex: 1;
+    padding: 0.7rem 1rem;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+}
+
+.payment-actions button[type="button"] {
+    background: #f0f0f4;
+    color: #333;
+}
+
+.payment-actions button[type="submit"] {
+    background: #6c5ce7;
+    color: #fff;
+}
+
+.payment-actions button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.payment-disclaimer {
+    margin-top: 1rem;
+    font-size: 0.75rem;
+    color: #999;
+    text-align: center;
+}
+
+@media (max-width: 480px) {
+    .payment-row {
+        flex-direction: column;
+    }
+}

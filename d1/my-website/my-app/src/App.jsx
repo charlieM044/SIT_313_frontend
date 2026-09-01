@@ -10,8 +10,11 @@ import Footer from './components/footer.jsx';
 import Signup from './components/headerfiles/signup.jsx';
 import Post from './components/posts/post.tsx';
 import Pricing from './components/payments/pricing.tsx';
+//import Upgrades from './components/payments/planupgrade.tsx';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider, useAuth } from './components/context/AuthContext.jsx';
+
 
 function Home() {
   return (
@@ -31,6 +34,8 @@ function Home() {
 
 function App() {
   return (
+
+    <AuthProvider>
     <BrowserRouter>
     <Header />
       <Routes>
@@ -38,9 +43,11 @@ function App() {
         <Route path="/signup" element={<Signup />} />
         <Route path="/post" element={<Post />} />
         <Route path="/pricing" element={<Pricing />} />
+        {/* <Route path="/upgradeplans" element={<Upgrades />} /> */}
       </Routes>
        <Footer />
     </BrowserRouter>
+    </AuthProvider>
 
   );
 

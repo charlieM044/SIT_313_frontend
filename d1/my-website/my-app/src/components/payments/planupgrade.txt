@@ -1,0 +1,110 @@
+import { useState } from 'react';
+import { useAuth } from '../context/AuthContext.jsx';
+import plansData from '../data/plans.json' with { type: 'json' };
+
+type PlanType = 'free' | 'paid' | 'premium';
+
+type Plan = {
+    type: PlanType;
+    title: string;
+    price: string;
+    tagline: string;
+    features: string[];
+};
+
+const PLANS = plansData as Plan[];
+const PLANS_PER_PAGE = 2;
+
+function Upgrades() {
+    const { isLoggedIn, planType, openLoginModal } = useAuth();
+
+    const currentPlan = PLANS.find((plan) => plan.type === planType);
+    const otherPlans = PLANS.filter((plan) => plan.type !== planType);
+
+    const [visibleCount, setVisibleCount] = useState(PLANS_PER_PAGE);
+    const [selectedType, setSelectedType] = useState<PlanType>(otherPlans[0]?.type ?? 'free');
+
+    const selectedPlan = PLANS.find((plan) => plan.type === selectedType)!;
+    const visiblePlans = otherPlans.slice(0, visibleCount);
+
+   
+    const isOnFreePlan = !planType || planType === 'free';
+
+    return (
+        <section className="upgrade-section">
+            <h1 className="upgrade-title">Upgrade Your Plan</h1>
+
+            <p className="current-plan">
+                Current Plan: {isLoggedIn ? (currentPlan?.title ?? 'Free') : 'Not logged in'}
+            </p>
+
+            <p className="upgrade-subtitle">Choose a plan to see what's included.</p>
+
+            <div className="pricing-cards">
+                {visiblePlans.map((plan) => (
+                    <button
+                        key={plan.type}
+                        type="button"
+                        className={`pricing-card ${selectedType === plan.type ? 'pricing-card--selected' : ''}`}
+                        aria-pressed={selectedType === plan.type}
+                        onClick={() => {
+                            if (!isLoggedIn) {
+                                openLoginModal();
+                                return;
+                            }
+                            setSelectedType(plan.type);
+                        }}
+                    >
+                        <h2>{plan.title}</h2>
+                        <p className="pricing-card-price">{plan.price}</p>
+                    </button>
+                ))}
+            </div>
+
+            {visibleCount < otherPlans.length && (
+                <button
+                    type="button"
+                    className="show-more-button"
+                    onClick={() => setVisibleCount((count) => count + PLANS_PER_PAGE)}
+                >
+                    Show more plans
+                </button>
+            )}
+
+       
+
+
+            <div className="pricing-details">
+                <h2>{selectedPlan.title} plan</h2>
+                <p className="pricing-details-price">{selectedPlan.price}</p>
+                <p className="pricing-details-tagline">{selectedPlan.tagline}</p>
+                <ul className="pricing-features">
+                    {selectedPlan.features.map((feature) => (
+                        <li key={feature}>{feature}</li>
+                    ))}
+                </ul>
+
+                <button
+                    type="button"
+                    className="upgrade-button"
+                    
+                    onClick={() => {
+                        if (!isLoggedIn) {
+                            openLoginModal();
+                            return;
+                        }
+                        if (!isOnFreePlan) {
+                            alert(`You're already on the ${currentPlan?.title ?? 'Paid'} plan.`);
+                            return;
+                        }
+                        // TODO: open the payment modal here
+                    }}
+                >
+                    Upgrade Plan
+                </button>
+            </div>
+        </section>
+    );
+}
+
+export default Upgrades;

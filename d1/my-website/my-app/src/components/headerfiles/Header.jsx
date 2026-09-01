@@ -5,10 +5,10 @@ import Login from './login.jsx';
 import Signup from './signup.jsx';
 import { useNavigate } from 'react-router-dom';
 import NewsletterForm from './NewsletterForm.jsx'; // Import the NewsletterForm component
-
+import { useAuth } from '../context/AuthContext.jsx';
 
 function Header() {
-  const [isloggedIn, setIsLoggedIn] = useState(() => Boolean(localStorage.getItem('authToken')));
+  const { isLoggedIn, loading } = useAuth();
   const navigate = useNavigate();
   return (
     <header>
@@ -23,23 +23,20 @@ function Header() {
         <NewsletterForm />
       </nav> */}
 
-
-
       <nav aria-label="Primary navigation">
         <section className="search-bar">
           <SearchBar />
         </section>
         <div className="header-actions">
           <NewsletterForm />
-          <Login isLoggedIn={isloggedIn} setIsLoggedIn={setIsLoggedIn} />
-          {/* {isloggedIn && <button onClick={() => navigate('/post')}>Post</button>}
-          {/* {!isloggedIn && <button onClick={() => navigate('/signup')}>Sign Up</button>}*/}
+          <Login />
+          {!loading && isLoggedIn && <button onClick={() => navigate('/post')}>Post</button>}
+          {!loading && !isLoggedIn && <button onClick={() => navigate('/signup')}>Sign Up</button>}
 
-          <button onClick={() => navigate('/post')}>Post</button>
-          <button onClick={() => navigate('/pricing')}>Payment Plans</button>
+          {/* Single Pricing entry point, regardless of login state - the
+              Pricing page itself handles gating the Upgrade button. */}
+          <button onClick={() => navigate('/pricing')}>Pricing</button>
         </div>
-
-
       </nav>
 
       <section className="banner" aria-label="Banner">

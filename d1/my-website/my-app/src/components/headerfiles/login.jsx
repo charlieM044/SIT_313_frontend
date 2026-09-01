@@ -1,20 +1,21 @@
+
 import { useState } from 'react';
 import { createPortal } from 'react-dom';
-
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext.jsx';
 
-function Login({ onClose, isLoggedIn, setIsLoggedIn }) {
-  const [showLogin, setShowLogin] = useState(false);
+function Login({ onClose }) {
+  const { isLoggedIn, login, logout, loginModalOpen, openLoginModal, closeLoginModal } = useAuth();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  const handleLoginClick = () => setShowLogin((prev) => !prev);
+  const handleLoginClick = () => openLoginModal();
 
   const handleClose = () => {
-    setShowLogin(false);
+    closeLoginModal();
     if (onClose) onClose();
   };
 
@@ -36,40 +37,41 @@ function Login({ onClose, isLoggedIn, setIsLoggedIn }) {
         body: JSON.stringify({ email, password }),
       });
 
+      const result = await response.json();
+
       if (!response.ok) {
-        const result = await response.json();
         throw new Error(result.error);
       }
 
-      const result = await response.json();
-      localStorage.setItem('authToken', result.token);
-      setIsLoggedIn(true);
-      setShowLogin(false);
+      // Backend now returns { message, token, user }. login() closes the modal.
+      login(result.token, result.user);
       navigate('/');
     } catch (err) {
-      // Firebase gives specific error codes (auth/invalid-credential, auth/too-many-requests, etc.)
       setError('Incorrect email or password. Please try again.');
     } finally {
       setLoading(false);
     }
   };
 
+  const handleLogoutClick = async () => {
+    await logout();
+    handleClose();
+  };
+
   return (
     <>
       {isLoggedIn ? (
-        <button onClick={async () => {
-          await fetch('http://localhost:3000/api/auth/logout', { method: 'POST' });
-          localStorage.removeItem('authToken');
-          setIsLoggedIn(false);
-        }}>Logout</button>
+        <button type="button" onClick={handleLogoutClick}>
+          Logout
+        </button>
       ) : (
         <button onClick={handleLoginClick}>Login</button>
       )}
-      {showLogin &&
+      {loginModalOpen &&
         createPortal(
           <div className="login-overlay">
             <div className="login-box">
-              {showLogin && (
+              {loginModalOpen && (
                 <button
                   onClick={() => {
                     navigate('/signup');

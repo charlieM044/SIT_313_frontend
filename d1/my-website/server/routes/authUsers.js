@@ -7,12 +7,30 @@ const router = express.Router();
 const JWT_EXPIRES_IN = '5d';
 const jwtSecret = process.env.JWT_SECRET;
 
-router.post('/signup', async (req, res) => {
-  // authUsers.js, near the top
-const jwtSecret = process.env.JWT_SECRET;
+
 if (!jwtSecret) {
   throw new Error('JWT_SECRET is not set in environment variables.');
 }
+
+function requireAuth(req, res, next) {
+  const authHeader = req.headers.authorization || '';
+  const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
+
+  if (!token) {
+    return res.status(401).json({ error: 'Not authenticated.' });
+  }
+
+  try {
+    req.user = jwt.verify(token, jwtSecret);
+    next();
+  } catch (error) {
+    return res.status(401).json({ error: 'Invalid or expired session.' });
+  }
+}
+
+router.post('/signup', async (req, res) => {
+  // authUsers.js, near the top
+
   const { username, email, password } = req.body;
 
   if (!username || !email || !password || password.length < 6) {
@@ -31,6 +49,8 @@ if (!jwtSecret) {
       username,
       email,
       passwordHash,
+      createdAt: new Date(),
+      planType: 'free',
       createdAt: new Date(),
     });
 
@@ -73,15 +93,36 @@ router.post('/login', async (req, res) => {
       { expiresIn: JWT_EXPIRES_IN },
     );
 
-    return res.json({ message: 'Signed in.', token });
+    return res.json({
+      message: 'Signed in.',
+      token,
+      user: {
+        userId: user.id,
+        email: userData.email,
+        username: userData.username,
+        planType: userData.planType || 'free', // Default to 'free' if not set
+      },
+    });
   } catch (error) {
   console.error('Login error:', error);
   return res.status(500).json({ error: 'Unable to sign in.' });
   }
 });
 
+
+router.get('/me', requireAuth, (req, res) => {
+  return res.json({
+    userId: req.user.userId,
+    email: req.user.email,
+    username: req.user.username,
+    planType: req.user.planType,
+  });
+});
+
 router.post('/logout', (req, res) => {
   res.json({ message: 'Signed out.' });
 });
 
+
 module.exports = router;
+module.exports.requireAuth = requireAuth;

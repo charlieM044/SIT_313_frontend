@@ -1,0 +1,41 @@
+[
+    {
+        "type": "free",
+        "title": "Free",
+        "price": "$0 / month",
+        "tagline": "Everything you need to get started on DEV@Deakin.",
+        "features": [
+            "Post up to 5 articles or questions per month",
+            "Image uploads up to 2MB",
+            "Standard support response time",
+            "Access to public articles and questions"
+        ]
+    },
+    {
+        "type": "paid",
+        "title": "Paid",
+        "price": "$9 / month",
+        "tagline": "For members who want more room to publish and grow.",
+        "features": [
+            "Unlimited posts per month",
+            "Image uploads up to 25MB",
+            "Early access to new features and paid-only posts",
+            "Priority support response time",
+            "Paid member badge on your profile"
+        ]
+    },
+    {
+        "type": "premium",
+        "title": "Premium",
+        "price": "$15 / month",
+        "tagline": "For members who want the ultimate publishing experience.",
+        "features": [
+            "Unlimited posts per month",
+            "Image uploads up to 50MB",
+            "Early access to new features and paid-only posts",
+            "Priority support response time",
+            "Premium member badge on your profile",
+            "Access to exclusive premium content"
+        ]
+    }
+]

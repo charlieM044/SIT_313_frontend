@@ -5,10 +5,13 @@ require('dotenv').config();
 
 const authRouter = require('./routes/authUsers');
 const newsletterRouter = require('./routes/signupforEmail');
+const postsRouter = require('./routes/post');
 
 
 const app = express();
 const PORT = 3000;
+
+
 
 // Middleware
 app.use(cors({
@@ -22,7 +25,7 @@ app.use(express.static('.'));
 app.use('/api/auth', authRouter);
 app.use('/', newsletterRouter);
 
-
+app.use('/api/posts', postsRouter);
 
 
 
