@@ -2,8 +2,8 @@
   base = "c1/my-website/my-app"
   command = "npm install && npm run build"
   publish = "dist"
-  functions = "c1/my-website/netlify/functions"
-
+  functions = "../netlify/functions"
+  
 [[redirects]]
   from = "/*"
   to = "/index.html"
