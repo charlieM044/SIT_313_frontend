@@ -1,4 +1,4 @@
-import { useMemo, useState, type SyntheticEvent } from 'react';
+import { useMemo, useState, type SyntheticEvent, useEffect } from 'react';
 import { useAuth } from '../context/AuthContext.jsx';
 import plansData from '../data/plans.json' with { type: 'json' };
 
@@ -52,7 +52,7 @@ function PaymentModal({
 
     setSubmitting(true);
     try {
-      await upgradePlan(details);
+      await upgradePlan();
       onSuccess();
     } catch (err: any) {
       setError(err?.message || 'Something went wrong. Please try again.');
@@ -140,12 +140,31 @@ function Pricing() {
     () => PLANS.find((plan) => plan.type === selectedType) ?? PLANS[0],
     [selectedType]
   );
-  const visiblePlans = PLANS.slice(0, visibleCount);
+  
+  // Filter out current plan when logged in - only show upgrade options
+  const plansToShow = useMemo(
+    () => isLoggedIn && planType 
+      ? PLANS.filter((plan) => plan.type !== planType)
+      : PLANS,
+    [isLoggedIn, planType]
+  );
+  
+  const visiblePlans = plansToShow.slice(0, visibleCount);
 
   // Anyone above 'free' is treated as an active paid tier for gating the
   // Upgrade button - only Free members (or logged-out visitors, once they
   // log in) should be able to activate it.
   const isOnFreePlan = !planType || planType === 'free';
+
+  // Reset selectedType if it's the current plan (can't upgrade to current plan)
+  useEffect(() => {
+    if (isLoggedIn && planType && selectedType === planType) {
+      const firstAvailablePlan = plansToShow[0];
+      if (firstAvailablePlan) {
+        setSelectedType(firstAvailablePlan.type);
+      }
+    }
+  }, [isLoggedIn, planType, selectedType, plansToShow]);
 
   const handleUpgradeClick = () => {
     if (!isLoggedIn) {
@@ -189,7 +208,7 @@ function Pricing() {
         ))}
       </div>
 
-      {visibleCount < PLANS.length && (
+      {visibleCount < plansToShow.length && (
         <button
           type="button"
           className="show-more-button"
