@@ -1,5 +1,9 @@
 import { useState } from 'react';
 
+const API_URL = import.meta.env.DEV
+  ? 'http://localhost:3000/signupforemail'
+  : '/.netlify/functions/signupforemail';
+
 function NewsletterForm() {
   const [email, setEmail] = useState('');
   const [status, setStatus] = useState({ type: 'idle', message: '' });
@@ -8,7 +12,7 @@ function NewsletterForm() {
     e.preventDefault();
 
     try {
-      const response = await fetch('http://localhost:3000/signupforemail', {
+      const response = await fetch(API_URL, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
