@@ -25,7 +25,7 @@ function Login({ onClose, isLoggedIn, setIsLoggedIn }) {
     e.preventDefault();
     setError('');
 
-    if (!email || !password) {
+    if (!email || !password) { 
       setError('Please enter both email and password.');
       return;
     }
