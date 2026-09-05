@@ -45,10 +45,11 @@ function Header() {
         
           <Login
             isLoggedIn={isLoggedIn}   
-            onLogout={handleLogout}
+            onLogout={handleLogout } 
           />
           {/* {isloggedIn && <button onClick={() => navigate('/post')}>Post</button>}
           {/* {!isloggedIn && <button onClick={() => navigate('/signup')}>Sign Up</button>}*/}
+
 
           <button onClick={() => navigate('/post')}>Post</button>
         </div>
