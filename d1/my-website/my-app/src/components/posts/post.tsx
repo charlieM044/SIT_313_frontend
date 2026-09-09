@@ -22,7 +22,7 @@ function Post() {
   const [submitting, setSubmitting] = useState(false);
   const [status, setStatus] = useState('');
   const [error, setError] = useState('');
-
+  // Initialize the status and error states to empty strings, which will be used to display any success or error messages related to post submission.
   async function handlePostSubmit(e: SyntheticEvent<HTMLFormElement>) {
     e.preventDefault();
     setStatus('');
@@ -38,7 +38,7 @@ function Post() {
       return;
     }
 
-    const token = localStorage.getItem('authToken');
+    const token = localStorage.getItem('authToken');  // Retrieve the JWT token from local storage to include in the request headers for authentication
     if (!token) {
       setError('Your session has expired. Please log in again.');
       return;
@@ -46,13 +46,13 @@ function Post() {
 
     setSubmitting(true);
     try {
-      const response = await fetch('http://localhost:3000/api/posts', {
+      const response = await fetch('http://localhost:3000/api/posts', { // Send a POST request to the server to create a new post
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${token}`, // Include the JWT token in the Authorization header to authenticate the request
         },
-        body: JSON.stringify(postDraft),
+        body: JSON.stringify(postDraft), // Send the post draft data (type, title, description, tags) as JSON in the request body
       });
 
       const result = await response.json();

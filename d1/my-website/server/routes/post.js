@@ -7,7 +7,9 @@ const router = express.Router();
 // POST /api/posts
 // Body: { type: 'article' | 'question', title, description, tags }
 // Requires an Authorization: Bearer <token> header (checked by requireAuth).
-router.post('/', requireAuth, async (req, res) => {
+router.post('/', requireAuth, async (req, res) => {  // This route handles the creation of new posts (articles or questions).
+// // It requires the user to be authenticated, which is enforced by the requireAuth middleware. The request body should contain the type of post, title, description, and tags.
+// // The user's ID and email are extracted from the JWT token and used to associate the post with the author.
     const { type, title, description, tags } = req.body;
 
     if (type !== 'article' && type !== 'question') {
@@ -23,12 +25,12 @@ router.post('/', requireAuth, async (req, res) => {
         : [];
 
     try {
-        const docRef = await db.collection(collectionName).add({
+        const docRef = await db.collection(collectionName).add({  // Add a new document to the appropriate collection (articles or questions) in Firestore.
             type,
             title: title.trim(),
             description: description.trim(),
             tags: tagList,
-            authorId: req.user.userId,
+            authorId: req.user.userId,  // The author's ID is taken from the authenticated user's information (set by requireAuth).
             authorEmail: req.user.email,
             createdAt: new Date(),
         });

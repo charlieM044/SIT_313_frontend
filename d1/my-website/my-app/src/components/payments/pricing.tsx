@@ -4,7 +4,7 @@ import plansData from '../data/plans.json' with { type: 'json' };
 
 type PlanType = 'free' | 'paid' | 'premium';
 
-type Plan = {
+type Plan = {  // Define the structure of a Plan object, which includes the type of plan, title, price, tagline, and a list of features.
   type: PlanType;
   title: string;
   price: string;
@@ -12,7 +12,7 @@ type Plan = {
   features: string[];
 };
 
-type PaymentDetails = {
+type PaymentDetails = { // Define the structure of PaymentDetails, which includes the cardholder's name, card number, expiry date, and CVC code.
   name: string;
   cardNumber: string;
   expiry: string; 
@@ -27,24 +27,24 @@ const PLANS_PER_PAGE = 2;
 function PaymentModal({
   plan,
   onClose,
-  onSuccess,
+  onSuccess,  // Define the PaymentModal component, which takes in a plan, onClose callback, and onSuccess callback as props. It manages the state of payment details, error messages, and submission status.
 }: {
   plan: Plan;
   onClose: () => void;
-  onSuccess: () => void;
+  onSuccess: () => void; // The onSuccess callback is called when the payment is successfully processed, allowing the parent component to update its state accordingly.
 }) {
-  const { upgradePlan } = useAuth();
-  const [details, setDetails] = useState<PaymentDetails>({
+  const { upgradePlan } = useAuth();  // Use the upgradePlan function from the AuthContext to handle the plan upgrade process.
+  const [details, setDetails] = useState<PaymentDetails>({ // Initialize the payment details state with empty strings for name, card number, expiry date, and CVC code.
     name: '',
     cardNumber: '',
     expiry: '',
     cvc: '',
   });
-  const [error, setError] = useState('');
-  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState(''); // Initialize the error state to an empty string, which will be used to display any error messages related to payment processing.
+  const [submitting, setSubmitting] = useState(false);  // Initialize the submitting state to false, which will be used to indicate whether the payment form is currently being submitted.
 
 
-  const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: SyntheticEvent<HTMLFormElement>) => { // Handle the form submission for the payment modal. It prevents the default form submission behavior, resets any existing error messages, and sets the submitting state to true.
     e.preventDefault();
     setError('');
 
@@ -52,7 +52,7 @@ function PaymentModal({
 
     setSubmitting(true);
     try {
-      await upgradePlan();
+      await upgradePlan(details);
       onSuccess();
     } catch (err: any) {
       setError(err?.message || 'Something went wrong. Please try again.');
@@ -125,31 +125,32 @@ function PaymentModal({
 
 
 function Pricing() {
-  const { isLoggedIn, planType, openLoginModal } = useAuth();
+  const { isLoggedIn, planType, openLoginModal } = useAuth(); // Use the AuthContext to get the user's login status, current plan type, and a function to open the login modal if needed.
 
   const [visibleCount, setVisibleCount] = useState(PLANS_PER_PAGE);
   const [selectedType, setSelectedType] = useState<PlanType>(PLANS[0]?.type ?? 'free');
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const [upgradeSuccess, setUpgradeSuccess] = useState(false);
 
-  const currentPlan = useMemo(
+  const currentPlan = useMemo( // Use useMemo to compute the current plan based on the user's plan type. This avoids unnecessary recalculations unless the planType changes.
     () => PLANS.find((plan) => plan.type === planType),
     [planType]
   );
-  const selectedPlan = useMemo(
+  const selectedPlan = useMemo( // Use useMemo to compute the selected plan based on the selectedType state. This avoids unnecessary recalculations unless the selectedType changes.
     () => PLANS.find((plan) => plan.type === selectedType) ?? PLANS[0],
     [selectedType]
   );
   
   // Filter out current plan when logged in - only show upgrade options
-  const plansToShow = useMemo(
+  const plansToShow = useMemo(  // Use useMemo to compute the list of plans to show based on the user's login status and current plan type. 
+  // //If the user is logged in and has a plan type, filter out that plan from the list of available plans. Otherwise, show all plans.
     () => isLoggedIn && planType 
       ? PLANS.filter((plan) => plan.type !== planType)
       : PLANS,
     [isLoggedIn, planType]
   );
   
-  const visiblePlans = plansToShow.slice(0, visibleCount);
+  const visiblePlans = plansToShow.slice(0, visibleCount); // Use slice to get the currently visible plans based on the visibleCount state, which determines how many plans are displayed at once.
 
   // Anyone above 'free' is treated as an active paid tier for gating the
   // Upgrade button - only Free members (or logged-out visitors, once they
@@ -166,17 +167,17 @@ function Pricing() {
     }
   }, [isLoggedIn, planType, selectedType, plansToShow]);
 
-  const handleUpgradeClick = () => {
+  const handleUpgradeClick = () => { // Handle the click event for the "Upgrade Plan" button. It checks if the user is logged in and on a free plan before showing the payment modal. If the user is not logged in, it opens the login modal. If the user is already on a paid plan, it alerts them that they cannot upgrade.
     if (!isLoggedIn) {
       openLoginModal();
       return;
     }
-    if (!isOnFreePlan) {
+    if (!isOnFreePlan) { // If the user is not on a free plan, alert them that they are already on a paid plan and cannot upgrade further.
       alert(`You're already on the ${currentPlan?.title ?? 'Paid'} plan.`);
       return;
     }
-    setUpgradeSuccess(false);
-    setShowPaymentModal(true);
+    setUpgradeSuccess(false); 
+    setShowPaymentModal(true); // Show the payment modal to allow the user to enter their payment details and upgrade their plan.
   };
 
   return (

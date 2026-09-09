@@ -24,6 +24,10 @@ function Header() {
       </nav> */}
 
       <nav aria-label="Primary navigation">
+        <section className="logo">
+          <a href="/">My App</a>
+        </section>
+    
         <section className="search-bar">
           <SearchBar />
         </section>

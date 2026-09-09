@@ -11,7 +11,7 @@ const AuthContext = createContext({
     loginModalOpen: false,
     openLoginModal: () => { },
     closeLoginModal: () => { },
-    upgradePlan: async () => { },
+    upgradePlan: async (_paymentDetails) => { },
 });
 
 const API_BASE = 'http://localhost:3000/api/auth';
