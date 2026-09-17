@@ -1,0 +1,59 @@
+import Header from './components/headerfiles/Header.jsx';
+import About from './components/About.jsx';
+import Work from './components/Work.jsx';
+import Gallery from './components/Gallery.jsx';
+
+import Feat_Tutorials from './components/Feat_Tutorials.jsx';
+import Feat_Articles from './components/Feat_Articles.jsx';
+
+import Footer from './components/footer.jsx';
+import Signup from './components/headerfiles/signup.jsx';
+import Post from './components/posts/post.tsx';
+import Pricing from './components/payments/pricing.tsx';
+//import Upgrades from './components/payments/planupgrade.tsx';
+
+import ViewPosts from './components/posts/viewposts.tsx';
+
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { AuthProvider, useAuth } from './components/context/AuthContext.jsx';
+
+
+function Home() {
+  return (
+    <>
+      
+      <About />
+      <Work />
+      <Gallery />
+      <Feat_Articles />
+      <Feat_Tutorials />
+
+     
+    </>
+  );
+
+}
+
+function App() {
+  return (
+
+    <AuthProvider>
+    <BrowserRouter>
+    <Header />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/signup" element={<Signup />} />
+        <Route path="/post" element={<Post />} />
+        <Route path="/pricing" element={<Pricing />} />
+        <Route path="/viewposts" element={<ViewPosts />} />
+        {/* <Route path="/upgradeplans" element={<Upgrades />} /> */}
+      </Routes>
+       <Footer />
+    </BrowserRouter>
+    </AuthProvider>
+
+  );
+
+}
+
+export default App;
