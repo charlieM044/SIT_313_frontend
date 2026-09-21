@@ -28,7 +28,7 @@ function requireAuth(req, res, next) {
   }
 }
 
-function optionalAuth(req, res, next) {
+function optionalAuth(req, res, next) { // This middleware checks for a JWT token in the Authorization header. If present and valid, it attaches the user info to req.user; if not, it simply sets req.user to null and continues.
   const authHeader = req.headers.authorization || '';
   const token = authHeader.startsWith('Bearer ') ? authHeader.slice(7) : null;
 

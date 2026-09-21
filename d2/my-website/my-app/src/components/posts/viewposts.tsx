@@ -16,7 +16,7 @@ type Post = {
   createdAt: string | null;
 };
 
-type FiltersDraft = {
+type FiltersDraft = { 
   type: PostTypeFilter;
   tags: string;
   dateFrom: string;
@@ -36,13 +36,14 @@ const EMPTY_FILTERS: FiltersDraft = {
 
 const API_BASE = 'http://localhost:3000';
 
-function hiddenStorageKey(userId: string | null) {
-  return `hiddenPosts:${userId || 'guest'}`;
+function hiddenStorageKey(userId: string | null) {  // Generate a unique key for storing hidden posts in localStorage based on the user ID. If the user is not logged in, use 'guest' as the key.
+  return `hiddenPosts:${userId || 'guest'}`; // This function returns a string that can be used as a key in localStorage to store the IDs of posts that the user has chosen to hide. 
+  // It differentiates between logged-in users and guests by using the user ID or 'guest' if no user is logged in.
 }
 
-function loadHidden(userId: string | null): Set<string> {
+function loadHidden(userId: string | null): Set<string> { // Load the set of hidden post IDs from localStorage for the given user ID. If no data is found or if there's an error parsing it, return an empty set.
   try {
-    const raw = localStorage.getItem(hiddenStorageKey(userId));
+    const raw = localStorage.getItem(hiddenStorageKey(userId)); // Retrieve the raw JSON string from localStorage using the key generated for the user.
     if (!raw) return new Set();
     const parsed = JSON.parse(raw);
     return new Set(Array.isArray(parsed) ? parsed : []);
@@ -51,28 +52,29 @@ function loadHidden(userId: string | null): Set<string> {
   }
 }
 
-function saveHidden(userId: string | null, hidden: Set<string>) {
+function saveHidden(userId: string | null, hidden: Set<string>) { // Save the set of hidden post IDs to localStorage for the given user ID. 
+// If there's an error (e.g., due to private browsing or storage quota), it silently fails without breaking the application.
   try {
     localStorage.setItem(hiddenStorageKey(userId), JSON.stringify(Array.from(hidden)));
   } catch {
-    // localStorage can fail (private browsing, quota) -- hiding is a nice-to-have,
+    // localStorage can fail (private browsing, quota) 
     // so we just skip persisting rather than breaking the page.
   }
 }
 
-function formatDate(iso: string | null) {
+function formatDate(iso: string | null) {// Format an ISO date string into a more human-readable format. If the input is null or invalid, return 'Unknown date'.
   if (!iso) return 'Unknown date';
   const date = new Date(iso);
   if (Number.isNaN(date.getTime())) return 'Unknown date';
   return date.toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' });
 }
 
-function previewDescription(description: string) {
+function previewDescription(description: string) { // Generate a preview of the post description by taking the first line and truncating it if it's longer than 20 characters. If the first line is shorter than 10 characters, return it as is.
   const firstLine = description.split(/\r?\n/, 1)[0];
   return firstLine.length > 10 ? `${firstLine.slice(0, 20)}...` : firstLine;
 }
 
-function ViewPosts() {
+function ViewPosts() { // Main component for viewing posts. It handles fetching posts from the server, applying filters, managing hidden posts, and displaying the list of posts with options to expand or hide them.
   const { isLoggedIn, planType, user } = useAuth();
   const userId: string | null = user?.userId || null;
 
@@ -94,8 +96,10 @@ function ViewPosts() {
   useEffect(() => {
     setHiddenIds(loadHidden(userId));
   }, [userId]);
-
-  async function fetchPosts(filters: FiltersDraft) {
+ 
+  async function fetchPosts(filters: FiltersDraft) { // Fetch posts from the server based on the provided filters.
+  //  It constructs query parameters from the filters and sends a GET request to the server. 
+  // The response is then processed to update the state with the fetched posts or any errors encountered.
     setLoading(true);
     setError(null);
     try {
@@ -153,7 +157,7 @@ function ViewPosts() {
     fetchPosts(EMPTY_FILTERS);
   }
 
-  function hidePost(id: string) {
+  function hidePost(id: string) { // Hide a post by adding its ID to the hiddenIds set and saving it to localStorage.
     setHiddenIds((prev) => {
       const next = new Set(prev);
       next.add(id);
@@ -162,7 +166,7 @@ function ViewPosts() {
     });
   }
 
-  function handleDrop(targetId: string) {
+  function handleDrop(targetId: string) {// Handle the drop event when a post is dragged and dropped onto another post. It updates the order of posts in the state based on the dragged and target post IDs.
     if (!draggedId || draggedId === targetId) {
       setDraggedId(null);
       return;
@@ -179,12 +183,13 @@ function ViewPosts() {
     setDraggedId(null);
   }
 
-  const allVisiblePosts = useMemo(
+  const allVisiblePosts = useMemo( // Compute the list of posts that are not hidden based on the hiddenIds set. This memoized value updates whenever the posts or hiddenIds change.
     () => posts.filter((p) => !hiddenIds.has(p.id)),
     [posts, hiddenIds],
   );
 
-  const visiblePosts = useMemo(
+  const visiblePosts = useMemo( // Compute the list of posts to display based on the numberOfPosts state. 
+  // It slices the allVisiblePosts array to show only the specified number of posts. This memoized value updates whenever allVisiblePosts or numberOfPosts change.
     () => allVisiblePosts.slice(0, numberOfPosts),
     [allVisiblePosts, numberOfPosts],
   );
