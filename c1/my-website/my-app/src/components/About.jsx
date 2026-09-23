@@ -1,8 +1,10 @@
+import profileImage from '../../profile.avif';
+
 function About() {
   return (
     <section className="ME" id="about">
       <div className="imageImage">
-        <img src="/profile.avif" alt="Profile photo" className="personImage" />
+        <img src={profileImage} alt="Profile photo" className="personImage" />
       </div>
 
       <div className="ME-text">

@@ -3,7 +3,6 @@ const photos = [
   { src: '/assets/pexels-2.jpg', alt: 'Gallery image 2 from Pexels' },
   { src: '/assets/pexels-3.jpg', alt: 'Gallery image 3 from Pexels' },
   { src: '/assets/pixabay-tree.jpg', alt: 'Gallery image 4 from Pixabay' },
-  { src: '/assets/pixabay-2.jpg', alt: 'Gallery image 5 from Pixabay' },
 ];
 
 function Gallery() {

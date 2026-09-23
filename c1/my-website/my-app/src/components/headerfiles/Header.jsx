@@ -1,4 +1,5 @@
 //import NewsletterForm from './NewsletterForm.jsx';
+import bannerImage from '../../../banner.webp';
 import { useAuth, AuthProvider } from '../context/AuthContext.jsx';
 import { auth } from '../../firebase.js';
 import { signOut } from 'firebase/auth';
@@ -35,7 +36,7 @@ function Header() {
       <nav aria-label="Primary navigation">
               <section className="logo">
           <a href="/">
-            <img src="/logo.png" alt="Logo" />
+                  Charlie
           </a>
         </section>
         <section className="search-bar">
@@ -58,7 +59,7 @@ function Header() {
       </nav>
 
       <section className="banner" aria-label="Banner">
-        <img src="/banner.webp" alt="Scenic banner" />
+        <img src={bannerImage} alt="Scenic banner" />
         <div className="banner-bar">my name charlie</div>
       </section>
     </header>
